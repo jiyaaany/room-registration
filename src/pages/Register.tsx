@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import useForm from '../useForm';
 import { Form, Button, Col, Modal } from 'react-bootstrap';
-import { FormData } from '../types/instances';
+import { Link } from 'react-router-dom';
+import uniqueString from 'unique-string';
 
 const Register: React.FC = () => {
   const [roomItems, setRoomItems] = useState(
-    () => JSON.parse(window.localStorage.getItem('roomItems') || '[]')
+    () => JSON.parse(localStorage.getItem('roomItems') || '[]')
   );
-  const [pk, setPk] = useState(roomItems.length + 1 || 1);
-  const [formData, setFormData] = useState<FormData>(initialState);
+  const pk = uniqueString();
+  const [formData, setFormData] = useForm(initialState);
   const [hasMaintenanceFee, setHasMaintenanceFee] = useState<boolean>(true);
-  const [show, setShow] = useState<boolean>(
-    () => window.localStorage.getItem('tempRoomItems') ? true : false
-  );
+  const [show, setShow] = useState<boolean>(localStorage.getItem('tempRoomItem') ? true : false);
+  const [showCompleteModal, setShowCompleteModal] = useState<boolean>(false);
 
   const onChange = ({ target }: any) => {
     setFormData({
@@ -27,15 +28,15 @@ const Register: React.FC = () => {
   const onSubmit = () => {
     setRoomItems({
       ...roomItems,
-      [pk - 1]: {
+      [pk]: {
         ...formData,
         pk,
       }
     });
 
-    setPk((pk: number) => pk + 1);
+    setShowCompleteModal(true);
 
-    window.localStorage.removeItem('tempRoomItems');
+    localStorage.removeItem('tempRoomItem');
   };
 
   const addMaintenanceFeeItems = ({ target }: any) => {
@@ -67,27 +68,16 @@ const Register: React.FC = () => {
   };
 
   const keepRegister = () => {
+    const storageFormData = localStorage.getItem('tempRoomItem');
     setShow(false);
 
-    setFormData({
-      ...JSON.parse(window.localStorage.getItem('tempRoomItems') || ''),
-    });
+    if (storageFormData) {
+      setFormData(JSON.parse(storageFormData));
+    }
   }
 
   useEffect(() => {
-    if (window.localStorage.getItem('tempRoomItems')) {
-      console.log(window.localStorage.getItem('tempRoomItems'));
-      if (window.localStorage.getItem('tempRoomItems') === JSON.stringify(initialState)) {
-        console.log('같잫아');
-      } else {
-        console.log('다르자너');
-      }
-    }
-    
-  }, []);
-
-  useEffect(() => {
-    window.localStorage.setItem('roomItems', JSON.stringify(roomItems));
+    localStorage.setItem('roomItems', JSON.stringify(roomItems));
   }, [roomItems]);
 
   useEffect(() => {
@@ -97,23 +87,17 @@ const Register: React.FC = () => {
         maintenanceFee: 0,
       }));
     }
-  }, [hasMaintenanceFee]);
-
-  useEffect(() => {
-    console.log('formData');
-    console.log(formData);
-    window.localStorage.setItem('tempRoomItems', JSON.stringify(formData));
-  }, [formData]);
+  }, [hasMaintenanceFee, setFormData]);
 
   return (
     <>
     <Form onSubmit={onSubmit}>
       <h4>주소</h4>
       <Form.Control size="lg" name="address" onChange={onChange} value={formData.address} type="text" placeholder="건물주소 또는 건물명을 검색하세요." />
-      <Form.Control size="lg" name="detailAddress" onChange={onChange} type="text" placeholder="상세 주소(동/호수를 입력해주세요.)" />
+      <Form.Control size="lg" name="detailAddress" onChange={onChange} value={formData.detailAddress} type="text" placeholder="상세 주소(동/호수를 입력해주세요.)" />
   
       <h4>종류</h4>
-      <Form.Control as="select" size="lg" name="realEstate" onChange={onChange}>
+      <Form.Control as="select" size="lg" name="realEstate" onChange={onChange} value={formData.realEstate}>
         <option>매물종류를 선택해주세요.</option>
         <option value="ONE_ROOM">원룸</option>
         <option value="TWO_ROOM">투룸</option>
@@ -345,7 +329,7 @@ const Register: React.FC = () => {
       <Button onClick={onSubmit}>등록하기</Button>
     </Form>
       
-    <Modal show={show} backdrop="static">
+    <Modal show={show} onHide={() => setShow(false)} backdrop="static" centered>
       <Modal.Header closeButton>
         <Modal.Title>방 정보가 있음</Modal.Title>
       </Modal.Header>
@@ -357,6 +341,21 @@ const Register: React.FC = () => {
       <Modal.Footer>
         <Button variant="secondary" onClick={() => setShow(false)}>새로 등록</Button>
         <Button variant="primary" onClick={keepRegister}>이어서 등록</Button>
+      </Modal.Footer>
+    </Modal>
+
+    <Modal show={showCompleteModal} onHide={() => setShowCompleteModal(false)} backdrop="static" centered>
+      <Modal.Body>
+        <p>방이 등록되었습니다.</p>
+      </Modal.Body>
+
+      <Modal.Footer>
+        <Link to="/rooms">
+          <Button variant="secondary">목록으로 가기</Button>
+        </Link>
+        <Link to={`/room/${pk}`}>
+          <Button variant="primary">확인</Button>
+        </Link>
       </Modal.Footer>
     </Modal>
   </>
