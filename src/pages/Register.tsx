@@ -1,67 +1,128 @@
 import React, { useState, useEffect } from 'react';
-import { InputGroup, Form, ButtonGroup, Button, Col } from 'react-bootstrap';
-
-type FormData = {
-  address: string,
-  detailAddress: string,
-  realEstate: string,
-  realEstatePriceType: string,
-  depositAmount: number,
-  rentAmount: number,
-  maintenanceFee: number,
-  maintenanceFeeItems: string[],
-  floor: string,
-  sunlightDirection: string,
-  leasableArea: number,
-  pet: boolean,
-};
+import { Form, Button, Col, Modal } from 'react-bootstrap';
+import { FormData } from '../types/instances';
 
 const Register: React.FC = () => {
+  const [roomItems, setRoomItems] = useState(
+    () => JSON.parse(window.localStorage.getItem('roomItems') || '[]')
+  );
+  const [pk, setPk] = useState(roomItems.length + 1 || 1);
   const [formData, setFormData] = useState<FormData>(initialState);
   const [hasMaintenanceFee, setHasMaintenanceFee] = useState<boolean>(true);
+  const [show, setShow] = useState<boolean>(
+    () => window.localStorage.getItem('tempRoomItems') ? true : false
+  );
 
-  const changeFormData = ({ target }: any) => {
-    
+  const onChange = ({ target }: any) => {
     setFormData({
       ...formData,
       [target.name]: target.value
-    })
+    });
   };
 
   const toggleMaintenanceFee = () => {
     setHasMaintenanceFee(!hasMaintenanceFee);
   };
 
-  useEffect(() => {
-    if (!hasMaintenanceFee) {
+  const onSubmit = () => {
+    setRoomItems({
+      ...roomItems,
+      [pk - 1]: {
+        ...formData,
+        pk,
+      }
+    });
+
+    setPk((pk: number) => pk + 1);
+
+    window.localStorage.removeItem('tempRoomItems');
+  };
+
+  const addMaintenanceFeeItems = ({ target }: any) => {
+    if (target.checked) {
       setFormData({
         ...formData,
-        maintenanceFee: 0,
+        maintenanceFeeItems: formData.maintenanceFeeItems.concat(target.value)
+      });
+    } else {
+      setFormData({
+        ...formData,
+        maintenanceFeeItems: formData.maintenanceFeeItems.filter(item => item !== target.value)
       });
     }
-  }, [hasMaintenanceFee])
+  };
+
+  const setFloor = ({ target: { value } }: any) => {
+    setFormData({
+      ...formData,
+      floor: value,
+    });
+  };
+
+  const setLeasableArea = ({ target }: any) => {
+    setFormData({
+      ...formData,
+      leasableArea: target.name === 'pyeong' ? target.value * 3.30579 : target.value,
+    });
+  };
+
+  const keepRegister = () => {
+    setShow(false);
+
+    setFormData({
+      ...JSON.parse(window.localStorage.getItem('tempRoomItems') || ''),
+    });
+  }
+
+  useEffect(() => {
+    if (window.localStorage.getItem('tempRoomItems')) {
+      console.log(window.localStorage.getItem('tempRoomItems'));
+      if (window.localStorage.getItem('tempRoomItems') === JSON.stringify(initialState)) {
+        console.log('같잫아');
+      } else {
+        console.log('다르자너');
+      }
+    }
+    
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem('roomItems', JSON.stringify(roomItems));
+  }, [roomItems]);
+
+  useEffect(() => {
+    if (!hasMaintenanceFee) {
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        maintenanceFee: 0,
+      }));
+    }
+  }, [hasMaintenanceFee]);
+
+  useEffect(() => {
+    console.log('formData');
+    console.log(formData);
+    window.localStorage.setItem('tempRoomItems', JSON.stringify(formData));
+  }, [formData]);
 
   return (
-    <Form.Group onChange={changeFormData}>
+    <>
+    <Form onSubmit={onSubmit}>
       <h4>주소</h4>
-      <InputGroup size="lg">
-        <Form.Control size="lg" name="address" type="text" placeholder="건물주소 또는 건물명을 검색하세요." />
-      </InputGroup>
-      <Form.Control size="lg" name="detailAddress" type="text" placeholder="상세 주소(동/호수를 입력해주세요.)" />
+      <Form.Control size="lg" name="address" onChange={onChange} value={formData.address} type="text" placeholder="건물주소 또는 건물명을 검색하세요." />
+      <Form.Control size="lg" name="detailAddress" onChange={onChange} type="text" placeholder="상세 주소(동/호수를 입력해주세요.)" />
   
       <h4>종류</h4>
-      <Form.Group>
-        <Form.Control as="select" size="lg" name="realEstate">
-          <option>매물종류를 선택해주세요.</option>
-          <option value="ONE_ROOM">원룸</option>
-          <option value="TWO_ROOM">투룸</option>
-          <option value="APARTMENT">아파트</option>
-          <option value="EFFICIENCY_APARTMENT">오피스텔</option>
-        </Form.Control>
-      </Form.Group>
+      <Form.Control as="select" size="lg" name="realEstate" onChange={onChange}>
+        <option>매물종류를 선택해주세요.</option>
+        <option value="ONE_ROOM">원룸</option>
+        <option value="TWO_ROOM">투룸</option>
+        <option value="APARTMENT">아파트</option>
+        <option value="EFFICIENCY_APARTMENT">오피스텔</option>
+      </Form.Control>
   
       <h4>가격</h4>
-      <div>
+      <Form.Group onChange={onChange}>
         <Form.Check
           inline
           name="realEstatePriceType"
@@ -95,12 +156,12 @@ const Register: React.FC = () => {
             <Form.Control size="lg" name="rentAmount" type="number" placeholder="임대료" />
           </Col>
         </Form.Row>
-      </div>
+      </Form.Group>
   
       <h4>관리비</h4>
-      <Form.Row>
+      <Form.Row onChange={onChange}>
         <Col>
-          <Form.Control size="lg" name="maintenanceFee" placeholder="관리비" type="number" disabled={!hasMaintenanceFee} value={formData.maintenanceFee} onChange={changeFormData} />
+          <Form.Control size="lg" name="maintenanceFee" placeholder="관리비" type="number" disabled={!hasMaintenanceFee} value={formData.maintenanceFee} onChange={onChange} />
         </Col>
         <Col>
           <Form.Group controlId="formBasicCheckbox">
@@ -110,50 +171,52 @@ const Register: React.FC = () => {
       </Form.Row>
   
       <h4>관리비 항목<span>(중복선택)</span></h4>
-      <Form.Check
-        inline
-        name="maintenanceFeeItems"
-        type="checkbox"
-        id="ELECTRIC"
-        value="ELECTRIC"
-        label="전기"
-      />
-      <Form.Check
-        inline
-        name="maintenanceFeeItems"
-        type="checkbox"
-        id="GAS"
-        value="GAS"
-        label="가스"
-      />
-      <Form.Check
-        inline
-        name="maintenanceFeeItems"
-        type="checkbox"
-        id="WATERWORKS"
-        value="WATERWORKS"
-        label="수도"
-      />
-      <Form.Check
-        inline
-        name="maintenanceFeeItems"
-        type="checkbox"
-        id="INTERNET"
-        value="INTERNET"
-        label="인터넷"
-      />
-      <Form.Check
-        inline
-        name="maintenanceFeeItems"
-        type="checkbox"
-        id="TV"
-        value="TV"
-        label="TV"
-      />
+      <Form.Group onClick={addMaintenanceFeeItems}>
+        <Form.Check
+          inline
+          name="maintenanceFeeItems"
+          type="checkbox"
+          id="ELECTRIC"
+          value="ELECTRIC"
+          label="전기"
+        />
+        <Form.Check
+          inline
+          name="maintenanceFeeItems"
+          type="checkbox"
+          id="GAS"
+          value="GAS"
+          label="가스"
+        />
+        <Form.Check
+          inline
+          name="maintenanceFeeItems"
+          type="checkbox"
+          id="WATERWORKS"
+          value="WATERWORKS"
+          label="수도"
+        />
+        <Form.Check
+          inline
+          name="maintenanceFeeItems"
+          type="checkbox"
+          id="INTERNET"
+          value="INTERNET"
+          label="인터넷"
+        />
+        <Form.Check
+          inline
+          name="maintenanceFeeItems"
+          type="checkbox"
+          id="TV"
+          value="TV"
+          label="TV"
+        />
+      </Form.Group>
   
       {/* 층수 */}
       <h4>층수</h4>
-      <div>
+      <Form.Group onChange={onChange}>
         <Form.Check
           inline
           name="floor"
@@ -178,11 +241,17 @@ const Register: React.FC = () => {
           value="SEMI_BASEMENT"
           label="반지하"
         />
-      </div>
+        {
+          formData.floor === 'floors' &&
+          <Form.Control as="select" size="lg" name="" onChange={setFloor}>
+            { [...Array(80).keys()].map(v => v + 1).map(floor => <option key={floor} value={`${floor}`}>{floor}층</option>) }
+          </Form.Control>
+        }
+      </Form.Group>
   
       {/* 방향 */}
       <h4>방향</h4>
-      <div>
+      <Form.Group onChange={onChange}>
         <Form.Check
           inline
           name="sunlightDirection"
@@ -247,18 +316,16 @@ const Register: React.FC = () => {
           value="NORTH_EAST"
           label="북동"
         />
-      </div>
+      </Form.Group>
   
       {/* 전용면적 */}
       <h4>전용면적</h4>
-      <div>
-        <Form.Control size="lg" type="number" placeholder="전용 면적을 입력해주세요. (평)" />
-        <Form.Control size="lg" name="leasableArea" type="number" placeholder="전용 면적을 입력해주세요. (m2)" />
-      </div>
+      <Form.Control size="lg" name="pyeong" onChange={setLeasableArea} value={formData.leasableArea ? formData.leasableArea / 3.30579 : undefined} type="number" placeholder="전용 면적을 입력해주세요. (평)" />
+      <Form.Control size="lg" name="leasableArea" onChange={setLeasableArea} value={formData.leasableArea ? formData.leasableArea : undefined} type="number" placeholder="전용 면적을 입력해주세요. (m2)" />
   
       {/* 반려동물 */}
       <h4>반려동물</h4>
-      <div>
+      <Form.Group onChange={onChange}>
         <Form.Check
           inline
           name="pet"
@@ -273,10 +340,26 @@ const Register: React.FC = () => {
           value="false"
           label="불가능"
         />
-      </div>
+      </Form.Group>
 
-      <Button>등록하기</Button>
-    </Form.Group>
+      <Button onClick={onSubmit}>등록하기</Button>
+    </Form>
+      
+    <Modal show={show} backdrop="static">
+      <Modal.Header closeButton>
+        <Modal.Title>방 정보가 있음</Modal.Title>
+      </Modal.Header>
+
+      <Modal.Body>
+        <p>입력된 방 정보가 있습니다. 이어서 등록하실래요 ???</p>
+      </Modal.Body>
+
+      <Modal.Footer>
+        <Button variant="secondary" onClick={() => setShow(false)}>새로 등록</Button>
+        <Button variant="primary" onClick={keepRegister}>이어서 등록</Button>
+      </Modal.Footer>
+    </Modal>
+  </>
   );
 }
 
@@ -293,6 +376,8 @@ const initialState = {
   sunlightDirection: '',
   leasableArea: 0,
   pet: true,
+  canceled: false,
+  thumbnail: '',
 };
 
 export default Register;
