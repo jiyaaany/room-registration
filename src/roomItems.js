@@ -1,7 +1,7 @@
 // roomItems.js
 export const roomItems = [
   {
-	  "pk": 1, 
+	  "pk": 1,
 	  "address": "서울 성동구 왕십리로 125", // 주소
 	  "detailAddress": "KD타워 101호", // 상세주소
 	  "realEstate": "APARTMENT", // 매물종류
