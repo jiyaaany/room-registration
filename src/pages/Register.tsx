@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import useForm from '../useForm';
 import { Form, Button, Col, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -13,7 +13,7 @@ const Register: React.FC = () => {
   const [showKeepModal, setShowKeepModal] = useState<boolean>(!!localStorage.getItem('tempRoomItem'));
   const [showCompleteModal, setShowCompleteModal] = useState<boolean>(false);
 
-  const onChange = ({ target }: any) => {
+  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [target.name]: target.value
@@ -38,7 +38,7 @@ const Register: React.FC = () => {
     localStorage.removeItem('tempRoomItem');
   };
 
-  const addMaintenanceFeeItems = ({ target }: any) => {
+  const addMaintenanceFeeItems = ({ target }: ChangeEvent<HTMLInputElement>) => {
     if (target.checked) {
       setFormData({
         ...formData,
@@ -52,7 +52,7 @@ const Register: React.FC = () => {
     }
   };
 
-  const setLeasableArea = ({ target }: any) => {
+  const setLeasableArea = ({ target }: ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       leasableArea: target.name === 'pyeong' ? target.value * 3.30579 : target.value,
@@ -68,7 +68,7 @@ const Register: React.FC = () => {
     }
   };
 
-  const changeMaintenanceFee = ({ target }: any) => {
+  const changeMaintenanceFee = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
 
     setFormData((prevFormData: FormData) => ({

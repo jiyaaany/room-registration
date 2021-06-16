@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Form, Button, Col, Modal } from 'react-bootstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Room } from '../types/instances';
@@ -10,7 +10,7 @@ const Edit: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }: Ro
   const [hasMaintenanceFee, setHasMaintenanceFee] = useState<boolean>(true);
   const [showCompleteModal, setShowCompleteModal] = useState<boolean>(false);
 
-  const onChange = ({ target }: any) => {
+  const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
     if (formData) {
       setFormData({
         ...formData,
@@ -37,7 +37,7 @@ const Edit: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }: Ro
     setShowCompleteModal(true);
   };
 
-  const addMaintenanceFeeItems = ({ target }: any) => {
+  const addMaintenanceFeeItems = ({ target }: ChangeEvent<HTMLInputElement>) => {
     if (formData) {
       if (target.checked) {
         setFormData({
@@ -53,7 +53,7 @@ const Edit: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }: Ro
     }
   };
 
-  const setLeasableArea = ({ target }: any) => {
+  const setLeasableArea = ({ target }: ChangeEvent<HTMLInputElement>) => {
     if (formData) {
       setFormData({
         ...formData,
@@ -62,7 +62,7 @@ const Edit: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }: Ro
     }
   };
 
-  const changeMaintenanceFee = ({ target }: any) => {
+  const changeMaintenanceFee = ({ target }: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = target;
 
     setFormData((prevFormData) => {
