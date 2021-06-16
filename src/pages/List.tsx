@@ -9,7 +9,7 @@ const List: React.FC = () => {
 
   return (
     <>
-      <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
+      <Tabs defaultActiveKey="uncancelled" id="uncontrolled-tab-example" className="mb-3">
         <Tab eventKey="uncancelled" title="올린 방">
           <Row xs={1} md={2} className="g-4">
             {
