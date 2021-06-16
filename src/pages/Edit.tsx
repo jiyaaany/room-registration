@@ -57,7 +57,7 @@ const Edit: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }: Ro
     if (formData) {
       setFormData({
         ...formData,
-        leasableArea: target.name === 'pyeong' ? target.value * 3.30579 : target.value,
+        leasableArea: target.name === 'pyeong' ? Number(target.value) * 3.30579 : Number(target.value),
       });
     }
   };

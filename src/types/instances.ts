@@ -1,19 +1,14 @@
-export type RealEstate = 'ONE_ROOM' | 'TWO_ROOM' | 'APARTMENT' | 'EFFICIENCY_APARTMENT';
-export type RealEstatePriceType = 'MONTHLY' | 'JEONSE' | 'SELLING';
-export type MaintenanceFeeItem = 'ELECTRIC' | 'GAS' | 'WATERWORKS' | 'INTERNET' | 'TV';
-export type SunlightDirection = 'EAST' | 'WEST' | 'SOUTH' | 'NORTH' | 'SOUTH_EAST' | 'SOUTH_WEST' | 'NORTH_WEST' | 'NORTH_EAST';
-
 export interface FormData {
   address: string,
   detailAddress: string,
-  realEstate: RealEstate | '',
-  realEstatePriceType: RealEstatePriceType | '',
+  realEstate: string,
+  realEstatePriceType: string,
   depositAmount: number,
   rentAmount: number,
   maintenanceFee: number,
-  maintenanceFeeItems: MaintenanceFeeItem[],
+  maintenanceFeeItems: string[],
   floor: string,
-  sunlightDirection: SunlightDirection | '',
+  sunlightDirection: string,
   leasableArea: number,
   pet: boolean,
   canceled: boolean,
