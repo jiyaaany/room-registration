@@ -234,6 +234,7 @@ const Register: React.FC = () => {
             id="floors"
             value="1"
             label="층수"
+            checked={!isNaN(parseInt(formData.floor))}
             onChange={onChange}
           />
           <Form.Check
@@ -418,7 +419,7 @@ const initialState = {
   rentAmount: 0,
   maintenanceFee: 0,
   maintenanceFeeItems: [],
-  floor: '',
+  floor: '1',
   sunlightDirection: '',
   leasableArea: 0,
   pet: true,
