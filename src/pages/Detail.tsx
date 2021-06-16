@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { RouteComponentProps, Link } from 'react-router-dom';
-import { Room, RealEstate, RealEstatePriceType, MaintenanceFeeItems, SunlightDirection, Floor, MatchParams } from '../types/instances';
+import { Room, RealEstates, RealEstatePriceTypes, MaintenanceFeeItems, SunlightDirections, Floors } from '../types/instances';
+import { MatchParams } from '../types/params';
 
 const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComponentProps<MatchParams>) => {
-  const realEstates: RealEstate = {
+  const realEstates: RealEstates = {
     'ONE_ROOM': '원룸',
     'TWO_ROOM': '투룸',
     'APARTMENT': '아파트',
     'EFFICIENCY_APARTMENT': '오피스텔',
   };
 
-  const realEstatePriceTypes: RealEstatePriceType = {
+  const realEstatePriceTypes: RealEstatePriceTypes = {
     'MONTHLY': '월세',
     'JEONSE': '전세',
     'SELLING': '매매',
@@ -25,7 +26,7 @@ const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComp
     'TV': 'TV',
   };
 
-  const sunlightDirections: SunlightDirection = {
+  const sunlightDirections: SunlightDirections = {
     'EAST': '동',
     'WEST': '서',
     'SOUTH': '남',
@@ -36,13 +37,13 @@ const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComp
     'NORTH_EAST': '북동',
   };
 
-  const floors: Floor = {
+  const floors: Floors = {
     'ROOFTOP': '옥탑',
     'SEMI_BASEMENT': '반지하',
   };
 
   const [roomItems, setRoomItems] = useState<Room[]>(JSON.parse(localStorage.getItem('roomItems') || '[]'));
-  const [room, setRoom] = useState<Room | undefined>(roomItems.find(room => room.pk === parseInt(match.params.roomPK)));
+  const [room, setRoom] = useState<Room | undefined>(roomItems.find(room => room.pk === match.params.roomPK));
 
   const toggleCancel = () => {
     setRoom((prevRoom) => {

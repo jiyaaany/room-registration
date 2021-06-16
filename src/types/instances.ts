@@ -15,20 +15,16 @@ export interface FormData {
   thumbnail: string,
 };
 
-export interface RealEstate { [key: string]: string };
+export interface RealEstates { [key: string]: string };
 
-export interface RealEstatePriceType { [key: string]: string };
+export interface RealEstatePriceTypes { [key: string]: string };
 
 export interface MaintenanceFeeItems { [key: string]: string };
 
-export interface SunlightDirection { [key: string]: string };
+export interface SunlightDirections { [key: string]: string };
 
-export interface Floor { [key: string]: string };
+export interface Floors { [key: string]: string };
 
 export interface Room extends FormData {
-  pk: number
-};
-
-export interface MatchParams {
-  roomPK: string
+  pk: string
 };
