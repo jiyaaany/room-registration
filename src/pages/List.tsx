@@ -1,10 +1,12 @@
 import React from 'react';
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import RoomCard from '../components/RoomCard';
-import { roomItems } from '../roomItems';
 import { Link } from 'react-router-dom';
+import { Room } from '../types/instances';
 
 const List: React.FC = () => {
+  const roomItems: Room[] = JSON.parse(localStorage.getItem('roomItems') || '[]');
+
   return (
     <Tabs defaultActiveKey="profile" id="uncontrolled-tab-example" className="mb-3">
       <Tab eventKey="uncancelled" title="올린 방">
@@ -12,7 +14,7 @@ const List: React.FC = () => {
           {
             roomItems.filter(room => !room.canceled)
               .map(uncancelledRoom => (
-                <Col>
+                <Col key={uncancelledRoom.pk}>
                   <Link to={`/room/${uncancelledRoom.pk}`}>
                     <RoomCard key={uncancelledRoom.pk} room={uncancelledRoom}></RoomCard>
                   </Link>
@@ -26,7 +28,7 @@ const List: React.FC = () => {
           {
             roomItems.filter(room => room.canceled)
               .map(cancelledRoom => (
-                <Col>
+                <Col key={cancelledRoom.pk}>
                   <Link to={`/room/${cancelledRoom.pk}`}>
                     <RoomCard key={cancelledRoom.pk} room={cancelledRoom}></RoomCard>
                   </Link>
