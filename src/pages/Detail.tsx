@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { roomItems } from '../roomItems';
 import { RouteComponentProps } from 'react-router-dom';
 import { Room, RealEstate, RealEstatePriceType, MaintenanceFeeItems, SunlightDirection, Floor } from '../types/instances';
 
@@ -9,7 +8,6 @@ type MatchParams = {
 }
 
 const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComponentProps<MatchParams>) => {
-
   const realEstates: RealEstate = {
     'ONE_ROOM': '원룸',
     'TWO_ROOM': '투룸',
@@ -47,20 +45,33 @@ const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComp
     'SEMI_BASEMENT': '반지하',
   };
 
-  const [room, setRoom] = useState<Room | undefined>();
+  const [roomItems, setRoomItems] = useState<Room[]>(JSON.parse(localStorage.getItem('roomItems') || '[]'));
+  const [room, setRoom] = useState<Room | undefined>(roomItems.find(room => room.pk === parseInt(match.params.roomPK)));
 
   const toggleCancel = () => {
-    if (room) {
-      setRoom({
-        ...room,
-        canceled: !room?.canceled
-      });
-    }
+
+    setRoom((prevRoom) => {
+      if (prevRoom) {
+        const nextRoom: Room = {
+          ...prevRoom,
+          canceled: !prevRoom.canceled
+        };
+
+        setRoomItems((prevRoomItems) =>
+          prevRoomItems.map(item =>
+            item.pk === prevRoom.pk
+              ? nextRoom
+              : item
+          )
+        );
+        return nextRoom;
+      }
+    });
   };
 
   useEffect(() => {
-    setRoom(roomItems.find(room => room.pk === parseInt(match.params.roomPK)));
-  }, [match.params.roomPK]);
+    localStorage.setItem('roomItems', JSON.stringify(roomItems));
+  }, [roomItems]);
 
   return (
     <div>
