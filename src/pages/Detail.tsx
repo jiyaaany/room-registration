@@ -82,23 +82,24 @@ const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComp
                 <span>상세주소: {room.detailAddress}</span><br />
                 <span>매물종류: {realEstates[room.realEstate]}</span><br />
                 <span>가격: [{realEstatePriceTypes[room.realEstatePriceType]}]</span>
-                <span>{room.depositAmount}</span>
+                <span>{Number(room.depositAmount).toLocaleString()} 원</span>
                 {
-                  room.rentAmount
-                    ? <span> / {room.rentAmount}</span>
-                    : null
+                  !!room.rentAmount &&
+                  <span> / {Number(room.rentAmount).toLocaleString()} 원</span>
                 }
                 <br />
-                <span>관리비: {room.maintenanceFee}</span> <br />
-                <span>관리비 포함 항목: {
-                  room.maintenanceFeeItems.forEach((item, index) => {
-                    if (index !== room.maintenanceFeeItems.length - 1) {
-                      return maintenanceFeeItems[item] + ', '
-                    } else {
-                      return maintenanceFeeItems[item];
-                    }
-                  })
-                }</span><br />
+                {
+                  !!room.maintenanceFee &&
+                  <span>관리비: {Number(room.maintenanceFee).toLocaleString()} 원</span>
+                }
+                <br />
+                {
+                  !!room.maintenanceFeeItems.length &&
+                  <span>관리비 포함 항목: {
+                    room.maintenanceFeeItems.map(item => maintenanceFeeItems[item]).join(', ')
+                  }</span>
+                }
+                <br />
                 <span>층수: {
                   isNaN(parseInt(room.floor)) ? floors[room.floor] : room.floor + '층'
                 }</span> <br />
