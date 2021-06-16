@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card } from 'react-bootstrap';
-import { RouteComponentProps } from 'react-router-dom';
-import { Room, RealEstate, RealEstatePriceType, MaintenanceFeeItems, SunlightDirection, Floor } from '../types/instances';
-
-type MatchParams = {
-  roomPK: string
-}
+import { RouteComponentProps, Link } from 'react-router-dom';
+import { Room, RealEstate, RealEstatePriceType, MaintenanceFeeItems, SunlightDirection, Floor, MatchParams } from '../types/instances';
 
 const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComponentProps<MatchParams>) => {
   const realEstates: RealEstate = {
@@ -49,7 +45,6 @@ const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComp
   const [room, setRoom] = useState<Room | undefined>(roomItems.find(room => room.pk === parseInt(match.params.roomPK)));
 
   const toggleCancel = () => {
-
     setRoom((prevRoom) => {
       if (prevRoom) {
         const nextRoom: Room = {
@@ -112,7 +107,12 @@ const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComp
               </Card.Text>
               {
                 room.canceled
-                  ? <Button variant="outline-dark" onClick={toggleCancel}>방 올리기</Button>
+                  ? <>
+                    <Button variant="outline-dark" onClick={toggleCancel}>방 올리기</Button>
+                    <Link to={`/room/edit/${room.pk}`}>
+                      <Button variant="outline-secondary">방 정보 수정</Button>
+                    </Link>
+                  </>
                   : <Button variant="dark" onClick={toggleCancel}>방 내리기</Button>
               }
             </Card.Body>
