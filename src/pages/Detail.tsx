@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Card } from 'react-bootstrap';
 import { RouteComponentProps, Link } from 'react-router-dom';
-import { Room, RealEstate, RealEstatePriceType, MaintenanceFeeItems, SunlightDirection, Floor, MatchParams } from '../types/instances';
+import { Room, RealEstate, RealEstatePriceType, MaintenanceFeeItems, SunlightDirection, Floor } from '../types/instances';
+import { MatchParams } from '../types/params';
 
 const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComponentProps<MatchParams>) => {
   const realEstates: RealEstate = {

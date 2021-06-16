@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button, Col, Modal } from 'react-bootstrap';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Room, MatchParams } from '../types/instances';
+import { Room } from '../types/instances';
+import { MatchParams } from '../types/params';
 
 const Edit: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }: RouteComponentProps<MatchParams>) => {
   const [roomItems, setRoomItems] = useState<Room[]>(JSON.parse(localStorage.getItem('roomItems') || '[]'));

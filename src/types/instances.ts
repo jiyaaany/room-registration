@@ -28,7 +28,3 @@ export interface Floor { [key: string]: string };
 export interface Room extends FormData {
   pk: number
 };
-
-export interface MatchParams {
-  roomPK: string
-};
