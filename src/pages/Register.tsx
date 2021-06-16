@@ -10,7 +10,7 @@ const Register: React.FC = () => {
   const pk = uniqueString();
   const [formData, setFormData] = useForm(initialState);
   const [hasMaintenanceFee, setHasMaintenanceFee] = useState<boolean>(true);
-  const [show, setShow] = useState<boolean>(localStorage.getItem('tempRoomItem') ? true : false);
+  const [showKeepModal, setShowKeepModal] = useState<boolean>(!!localStorage.getItem('tempRoomItem'));
   const [showCompleteModal, setShowCompleteModal] = useState<boolean>(false);
 
   const onChange = ({ target }: any) => {
@@ -61,7 +61,7 @@ const Register: React.FC = () => {
 
   const keepRegister = () => {
     const storageFormData = localStorage.getItem('tempRoomItem');
-    setShow(false);
+    setShowKeepModal(false);
 
     if (storageFormData) {
       setFormData(JSON.parse(storageFormData));
@@ -377,7 +377,7 @@ const Register: React.FC = () => {
         <Button onClick={onSubmit}>등록하기</Button>
       </Form>
 
-      <Modal show={show} onHide={() => setShow(false)} backdrop="static" centered>
+      <Modal show={showKeepModal} onHide={() => setShowKeepModal(false)} backdrop="static" centered>
         <Modal.Header closeButton>
           <Modal.Title>방 정보가 있음</Modal.Title>
         </Modal.Header>
@@ -387,7 +387,7 @@ const Register: React.FC = () => {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShow(false)}>새로 등록</Button>
+          <Button variant="secondary" onClick={() => setShowKeepModal(false)}>새로 등록</Button>
           <Button variant="primary" onClick={keepRegister}>이어서 등록</Button>
         </Modal.Footer>
       </Modal>
