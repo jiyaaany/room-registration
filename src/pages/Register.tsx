@@ -8,7 +8,22 @@ import uniqueString from 'unique-string';
 const Register: React.FC = () => {
   const [roomItems, setRoomItems] = useState<Room[]>(JSON.parse(localStorage.getItem('roomItems') || '[]'));
   const pk = uniqueString();
-  const [formData, setFormData] = useForm(initialState);
+  const [formData, setFormData] = useForm({
+    address: '',
+    detailAddress: '',
+    realEstate: '',
+    realEstatePriceType: '',
+    depositAmount: 0,
+    rentAmount: 0,
+    maintenanceFee: 0,
+    maintenanceFeeItems: [],
+    floor: '1',
+    sunlightDirection: '',
+    leasableArea: 0,
+    pet: true,
+    canceled: false,
+    thumbnail: '',
+  });
   const [hasMaintenanceFee, setHasMaintenanceFee] = useState<boolean>(true);
   const [showKeepModal, setShowKeepModal] = useState<boolean>(!!localStorage.getItem('tempRoomItem'));
   const [showCompleteModal, setShowCompleteModal] = useState<boolean>(false);
@@ -21,17 +36,14 @@ const Register: React.FC = () => {
   };
 
   const toggleMaintenanceFee = () => {
-    setHasMaintenanceFee(!hasMaintenanceFee);
+    setHasMaintenanceFee(prevHasMaintenanceFee => !prevHasMaintenanceFee);
   };
 
   const onSubmit = () => {
-    setRoomItems([
-      ...roomItems,
-      {
-        ...formData,
-        pk,
-      }
-    ]);
+    setRoomItems(prevRoomItems => prevRoomItems.concat({
+      ...formData,
+      pk,
+    }));
 
     setShowCompleteModal(true);
 
@@ -40,23 +52,23 @@ const Register: React.FC = () => {
 
   const addMaintenanceFeeItems = ({ target }: ChangeEvent<HTMLInputElement>) => {
     if (target.checked) {
-      setFormData({
-        ...formData,
-        maintenanceFeeItems: formData.maintenanceFeeItems.concat(target.value)
-      });
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        maintenanceFeeItems: prevFormData.maintenanceFeeItems.concat(target.value)
+      }));
     } else {
-      setFormData({
-        ...formData,
-        maintenanceFeeItems: formData.maintenanceFeeItems.filter(item => item !== target.value)
-      });
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        maintenanceFeeItems: prevFormData.maintenanceFeeItems.filter(item => item !== target.value)
+      }));
     }
   };
 
   const setLeasableArea = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
+    setFormData(prevFormData => ({
+      ...prevFormData,
       leasableArea: target.name === 'pyeong' ? Number(target.value) * 3.30579 : Number(target.value),
-    });
+    }));
   };
 
   const keepRegister = () => {
@@ -68,10 +80,8 @@ const Register: React.FC = () => {
     }
   };
 
-  const changeMaintenanceFee = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = target;
-
-    setFormData((prevFormData: FormData) => ({
+  const changeMaintenanceFee = ({ target: { name, value } }: ChangeEvent<HTMLInputElement>) => {
+    setFormData(prevFormData => ({
       ...prevFormData,
       maintenanceFee: value === 'SELLING' ? 0 : prevFormData.maintenanceFee,
       rentAmount: value !== 'MONTHLY' ? 0 : prevFormData.rentAmount,
@@ -85,7 +95,7 @@ const Register: React.FC = () => {
 
   useEffect(() => {
     if (!hasMaintenanceFee) {
-      setFormData((prevFormData: FormData) => ({
+      setFormData(prevFormData => ({
         ...prevFormData,
         maintenanceFee: 0,
       }));
@@ -409,22 +419,5 @@ const Register: React.FC = () => {
     </>
   );
 }
-
-const initialState: FormData = {
-  address: '',
-  detailAddress: '',
-  realEstate: '',
-  realEstatePriceType: '',
-  depositAmount: 0,
-  rentAmount: 0,
-  maintenanceFee: 0,
-  maintenanceFeeItems: [],
-  floor: '1',
-  sunlightDirection: '',
-  leasableArea: 0,
-  pet: true,
-  canceled: false,
-  thumbnail: '',
-};
 
 export default Register;

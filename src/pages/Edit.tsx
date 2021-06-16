@@ -11,12 +11,14 @@ const Edit: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }: Ro
   const [showCompleteModal, setShowCompleteModal] = useState<boolean>(false);
 
   const onChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    if (formData) {
-      setFormData({
-        ...formData,
-        [target.name]: target.value
-      });
-    }
+    setFormData(prevFormData => {
+      if (prevFormData) {
+        return {
+          ...prevFormData,
+          [target.name]: target.value
+        };
+      }
+    });
   };
 
   const toggleMaintenanceFee = () => {
@@ -25,7 +27,7 @@ const Edit: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }: Ro
 
   const onSubmit = () => {
     if (formData) {
-      setRoomItems((prevRoomItems) =>
+      setRoomItems(prevRoomItems =>
         prevRoomItems.map(item =>
           item.pk === formData.pk
             ? formData
@@ -38,34 +40,40 @@ const Edit: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }: Ro
   };
 
   const addMaintenanceFeeItems = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    if (formData) {
-      if (target.checked) {
-        setFormData({
-          ...formData,
-          maintenanceFeeItems: formData.maintenanceFeeItems.concat(target.value)
-        });
-      } else {
-        setFormData({
-          ...formData,
-          maintenanceFeeItems: formData.maintenanceFeeItems.filter(item => item !== target.value)
-        });
-      }
-    }
-  };
-
-  const setLeasableArea = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    if (formData) {
-      setFormData({
-        ...formData,
-        leasableArea: target.name === 'pyeong' ? Number(target.value) * 3.30579 : Number(target.value),
+    if (target.checked) {
+      setFormData(prevFormData => {
+        if (prevFormData) {
+          return {
+            ...prevFormData,
+            maintenanceFeeItems: prevFormData.maintenanceFeeItems.concat(target.value)
+          };
+        }
+      });
+    } else {
+      setFormData(prevFormData => {
+        if (prevFormData) {
+          return {
+            ...prevFormData,
+            maintenanceFeeItems: prevFormData.maintenanceFeeItems.filter(item => item !== target.value)
+          };
+        }
       });
     }
   };
 
-  const changeMaintenanceFee = ({ target }: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = target;
+  const setLeasableArea = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    setFormData(prevFormData => {
+      if (prevFormData) {
+        return {
+          ...prevFormData,
+          leasableArea: target.name === 'pyeong' ? Number(target.value) * 3.30579 : Number(target.value),
+        }
+      }
+    });
+  };
 
-    setFormData((prevFormData) => {
+  const changeMaintenanceFee = ({ target: { name, value } }: ChangeEvent<HTMLInputElement>) => {
+    setFormData(prevFormData => {
       if (prevFormData) {
         return {
           ...prevFormData,
