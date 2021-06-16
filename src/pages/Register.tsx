@@ -234,6 +234,7 @@ const Register: React.FC = () => {
             id="floors"
             value="1"
             label="층수"
+            checked={!isNaN(parseInt(formData.floor))}
             onChange={onChange}
           />
           <Form.Check
@@ -349,8 +350,8 @@ const Register: React.FC = () => {
 
         {/* 전용면적 */}
         <h4>전용면적</h4>
-        <Form.Control size="lg" name="pyeong" onChange={setLeasableArea} value={formData.leasableArea ? formData.leasableArea / 3.30579 : undefined} type="number" placeholder="전용 면적을 입력해주세요. (평)" />
-        <Form.Control size="lg" name="leasableArea" onChange={setLeasableArea} value={formData.leasableArea ? formData.leasableArea : undefined} type="number" placeholder="전용 면적을 입력해주세요. (m2)" />
+        <Form.Control size="lg" name="pyeong" onChange={setLeasableArea} value={formData.leasableArea ? Math.round(formData.leasableArea / 3.30579) : undefined} type="number" placeholder="전용 면적을 입력해주세요. (평)" min={0} />
+        <Form.Control size="lg" name="leasableArea" onChange={setLeasableArea} value={formData.leasableArea ? Number(formData.leasableArea).toFixed(3) : undefined} type="number" placeholder="전용 면적을 입력해주세요. (m2)" min={0} />
 
         {/* 반려동물 */}
         <h4>반려동물</h4>
@@ -418,7 +419,7 @@ const initialState = {
   rentAmount: 0,
   maintenanceFee: 0,
   maintenanceFeeItems: [],
-  floor: '',
+  floor: '1',
   sunlightDirection: '',
   leasableArea: 0,
   pet: true,
