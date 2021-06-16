@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import useForm from '../useForm';
 import { Form, Button, Col, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { FormData } from '../types/instances';
+import { FormData, Room } from '../types/instances';
 import uniqueString from 'unique-string';
 
 const Register: React.FC = () => {
-  const [roomItems, setRoomItems] = useState(JSON.parse(localStorage.getItem('roomItems') || '[]'));
+  const [roomItems, setRoomItems] = useState<Room[]>(JSON.parse(localStorage.getItem('roomItems') || '[]'));
   const pk = uniqueString();
   const [formData, setFormData] = useForm(initialState);
   const [hasMaintenanceFee, setHasMaintenanceFee] = useState<boolean>(true);
@@ -410,7 +410,7 @@ const Register: React.FC = () => {
   );
 }
 
-const initialState = {
+const initialState: FormData = {
   address: '',
   detailAddress: '',
   realEstate: '',

@@ -43,7 +43,7 @@ const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComp
   };
 
   const [roomItems, setRoomItems] = useState<Room[]>(JSON.parse(localStorage.getItem('roomItems') || '[]'));
-  const [room, setRoom] = useState<Room | undefined>(roomItems.find(room => room.pk === parseInt(match.params.roomPK)));
+  const [room, setRoom] = useState<Room | undefined>(roomItems.find(room => room.pk === match.params.roomPK));
 
   const toggleCancel = () => {
     setRoom((prevRoom) => {

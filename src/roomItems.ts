@@ -1,9 +1,10 @@
 // roomItems.js
 import { Room } from './types/instances';
+import uniqueString from 'unique-string';
 
 export const roomItems: Room[] = [
 	{
-		"pk": 1,
+		"pk": uniqueString(),
 		"address": "서울 성동구 왕십리로 125", // 주소
 		"detailAddress": "KD타워 101호", // 상세주소
 		"realEstate": "APARTMENT", // 매물종류
@@ -20,10 +21,10 @@ export const roomItems: Room[] = [
 		"canceled": false // 올린방, 내린방 여부
 	},
 	{
-		"pk": 2,
+		"pk": uniqueString(),
 		"address": "서울 성동구 왕십리로 125",
 		"detailAddress": "KD타워 반지하",
-		"realEstate": "SEMI_BASEMENT",
+		"realEstate": "APARTMENT",
 		"realEstatePriceType": "SELLING",
 		"depositAmount": 500000000,
 		"rentAmount": 0,
@@ -37,7 +38,7 @@ export const roomItems: Room[] = [
 		"canceled": false
 	},
 	{
-		"pk": 3,
+		"pk": uniqueString(),
 		"address": "서울 성동구 왕십리로 125",
 		"detailAddress": "KD타워 710호",
 		"realEstate": "EFFICIENCY_APARTMENT",

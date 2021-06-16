@@ -6,14 +6,14 @@ export type SunlightDirection = 'EAST' | 'WEST' | 'SOUTH' | 'NORTH' | 'SOUTH_EAS
 export interface FormData {
   address: string,
   detailAddress: string,
-  realEstate: RealEstate,
-  realEstatePriceType: RealEstatePriceType,
+  realEstate: RealEstate | '',
+  realEstatePriceType: RealEstatePriceType | '',
   depositAmount: number,
   rentAmount: number,
   maintenanceFee: number,
   maintenanceFeeItems: MaintenanceFeeItem[],
   floor: string,
-  sunlightDirection: SunlightDirection,
+  sunlightDirection: SunlightDirection | '',
   leasableArea: number,
   pet: boolean,
   canceled: boolean,
@@ -31,5 +31,5 @@ export interface SunlightDirections { [key: string]: string };
 export interface Floors { [key: string]: string };
 
 export interface Room extends FormData {
-  pk: number
+  pk: string
 };
