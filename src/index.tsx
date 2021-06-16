@@ -4,6 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Container } from 'react-bootstrap';
+import { roomItems } from './roomItems';
+
+if (!localStorage.getItem('roomItems')) {
+  localStorage.setItem('roomItems', JSON.stringify(roomItems));
+}
 
 ReactDOM.render(
   <React.StrictMode>
