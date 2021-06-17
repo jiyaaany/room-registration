@@ -120,6 +120,7 @@ const Edit: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }: Ro
 
   return (
     <>
+      <h2 className="font-weight-bold text-center">방 수정하기</h2>
       <RoomForm
         onChange={onChange}
         onSubmit={onSubmit}

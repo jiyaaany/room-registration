@@ -42,6 +42,10 @@
 .no-deco-link {
   text-decoration: none;
   color: #000;
+
+  &:hover {
+    color: #000;
+  }
 }
 
 @mixin no-deco-link-hover {
@@ -49,16 +53,16 @@
   color: #fff;
 }
 
-.register-card:hover {
-  a {
-    @include no-deco-link-hover();
-  }
+.home-card {
+  transition: background-color 0.5s;
+}
+
+.register-card:hover a {
+  @include no-deco-link-hover();
   background: $success;
 }
 
-.list-card:hover {
-  a {
-    @include no-deco-link-hover();
-  }
+.list-card:hover a {
+  @include no-deco-link-hover();
   background: $warning;
 }
