@@ -16,7 +16,7 @@ const List: React.FC = () => {
               roomItems.filter(room => !room.canceled)
                 .map(uncancelledRoom => (
                   <Col key={uncancelledRoom.pk}>
-                    <Link to={`/room/${uncancelledRoom.pk}`}>
+                    <Link to={`/room/${uncancelledRoom.pk}`} className="no-deco-link">
                       <RoomCard key={uncancelledRoom.pk} room={uncancelledRoom}></RoomCard>
                     </Link>
                   </Col>
@@ -30,7 +30,7 @@ const List: React.FC = () => {
               roomItems.filter(room => room.canceled)
                 .map(cancelledRoom => (
                   <Col key={cancelledRoom.pk}>
-                    <Link to={`/room/${cancelledRoom.pk}`}>
+                    <Link to={`/room/${cancelledRoom.pk}`} className="no-deco-link">
                       <RoomCard key={cancelledRoom.pk} room={cancelledRoom}></RoomCard>
                     </Link>
                   </Col>

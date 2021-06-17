@@ -42,6 +42,10 @@
 .no-deco-link {
   text-decoration: none;
   color: #000;
+
+  &:hover {
+    color: #000;
+  }
 }
 
 @mixin no-deco-link-hover {
