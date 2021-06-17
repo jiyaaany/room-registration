@@ -114,6 +114,10 @@ const Edit: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }: Ro
     }
   }, [hasMaintenanceFee, setFormData]);
 
+  useEffect(() => {
+    localStorage.setItem('roomItems', JSON.stringify(roomItems));
+  }, [roomItems]);
+
   if (!formData) {
     return null;
   }

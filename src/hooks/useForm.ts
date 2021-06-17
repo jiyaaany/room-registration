@@ -7,10 +7,10 @@ const useForm = (initialState: FormData): [FormData, (nextFormData: FormData | (
   const onChange = (nextFormData: FormData | ((prevFormData: FormData) => FormData)) => {
     setFormData((prevFormData: FormData) => {
       if (typeof nextFormData === 'function') {
-        window.localStorage.setItem('tempRoomItem', JSON.stringify(nextFormData(prevFormData)));
+        localStorage.setItem('tempRoomItem', JSON.stringify(nextFormData(prevFormData)));
         return nextFormData(prevFormData);
       } else {
-        window.localStorage.setItem('tempRoomItem', JSON.stringify(nextFormData));
+        localStorage.setItem('tempRoomItem', JSON.stringify(nextFormData));
         return nextFormData;
       }
     });
