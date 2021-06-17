@@ -78,10 +78,10 @@ const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComp
             <Card.Img variant="top" src={room.thumbnail} />
             <Card.Body>
               <Card.Text>
-                <span>주소: {room.address}</span><br />
-                <span>상세주소: {room.detailAddress}</span><br />
-                <span>매물종류: {realEstates[room.realEstate]}</span><br />
-                <span>가격: [{realEstatePriceTypes[room.realEstatePriceType]}]</span>
+                <span><b>주소:</b> {room.address}</span><br />
+                <span><b>상세주소:</b> {room.detailAddress}</span><br />
+                <span><b>매물종류</b>: {realEstates[room.realEstate]}</span><br />
+                <span><b>가격</b>: [{realEstatePriceTypes[room.realEstatePriceType]}]</span>
                 <span>{Number(room.depositAmount).toLocaleString()} 원</span>
                 {
                   !!room.rentAmount &&
@@ -90,27 +90,28 @@ const Detail: React.FC<RouteComponentProps<MatchParams>> = ({ match }: RouteComp
                 <br />
                 {
                   !!room.maintenanceFee &&
-                  <span>관리비: {Number(room.maintenanceFee).toLocaleString()} 원</span>
+                  <span><b>관리비</b>: {Number(room.maintenanceFee).toLocaleString()} 원</span>
                 }
                 <br />
                 {
                   !!room.maintenanceFeeItems.length &&
-                  <span>관리비 포함 항목: {
+                  <span><b>관리비 포함 항목:</b> {
                     room.maintenanceFeeItems.map(item => maintenanceFeeItems[item]).join(', ')
                   }</span>
                 }
                 <br />
-                <span>층수: {
+
+                <span><b>층수</b>: {
                   isNaN(parseInt(room.floor)) ? floors[room.floor] : room.floor + '층'
                 }</span> <br />
-                <span>방향: {sunlightDirections[room.sunlightDirection]}</span> <br />
-                <span>전용면적: {room.leasableArea} m2</span> <br />
-                <span>반려동물: {room.pet ? '가능' : '불가능'}</span>
+                <span><b>방향</b>: {sunlightDirections[room.sunlightDirection]}</span> <br />
+                <span><b>전용면적</b>: {room.leasableArea} m2</span> <br />
+                <span><b>반려동물</b>: {room.pet ? '가능' : '불가능'}</span>
               </Card.Text>
               {
                 room.canceled
                   ? <>
-                    <Button variant="outline-dark" onClick={toggleCancel}>방 올리기</Button>
+                    <Button className="mr-2" variant="outline-dark" onClick={toggleCancel}>방 올리기</Button>
                     <Link to={`/room/edit/${room.pk}`}>
                       <Button variant="outline-secondary">방 정보 수정</Button>
                     </Link>
