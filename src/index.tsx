@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { roomItems } from './roomItems';
+
+if (!localStorage.getItem('roomItems')) {
+  localStorage.setItem('roomItems', JSON.stringify(roomItems));
+}
 
 ReactDOM.render(
   <React.StrictMode>

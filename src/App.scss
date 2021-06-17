@@ -1,3 +1,5 @@
+@import '~bootstrap/scss/bootstrap';
+
 .App {
   text-align: center;
 }
@@ -35,4 +37,32 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.no-deco-link {
+  text-decoration: none;
+  color: #000;
+
+  &:hover {
+    color: #000;
+  }
+}
+
+@mixin no-deco-link-hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+.home-card {
+  transition: background-color 0.5s;
+}
+
+.register-card:hover a {
+  @include no-deco-link-hover();
+  background: $success;
+}
+
+.list-card:hover a {
+  @include no-deco-link-hover();
+  background: $warning;
 }

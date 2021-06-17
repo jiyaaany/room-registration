@@ -1,25 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Container } from 'react-bootstrap';
+import Home from './pages/Home';
+import Register from './pages/Register';
+import Detail from './pages/Detail';
+import List from './pages/List';
+import Edit from './pages/Edit';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container className="py-4">
+      <BrowserRouter>
+        <Route exact path="/" component={Home} />
+        <Switch>
+          <Route exact path="/room/register" component={Register} />
+          <Route exact path="/room/:roomPK" component={Detail} />
+        </Switch>
+        <Route exact path="/rooms" component={List} />
+        <Route exact path="/room/edit/:roomPK" component={Edit} />
+      </BrowserRouter>
+    </Container>
   );
 }
 
