@@ -8,7 +8,7 @@ import RoomForm from '../components/RoomForm';
 
 const Register: React.FC = () => {
   const [roomItems, setRoomItems] = useState<Room[]>(JSON.parse(localStorage.getItem('roomItems') || '[]'));
-  const pk = uniqueString();
+  const [pk] = useState<string>(uniqueString());
   const [formData, setFormData] = useForm({
     address: '',
     detailAddress: '',

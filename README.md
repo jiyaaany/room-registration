@@ -2,6 +2,31 @@
 > Git 커밋 메시지 컨벤션은 [다음](https://velog.io/@recordboy/%EA%B9%83-%EC%BB%A4%EB%B0%8B-%EB%A9%94%EC%8B%9C%EC%A7%80-%EC%BB%A8%EB%B2%A4%EC%85%98Git-Commit-Message-Convention)을 참고합니다.
 > Git 브랜치 전략은 [다음](https://gmlwjd9405.github.io/2018/05/11/types-of-git-branch.html)을 참고합니다.
 
+### 프로젝트 시작
+
+1. 프로젝트 클론
+```
+git clone https://github.com/jiyaaany/room-registration
+```
+
+2. 패키지 설치
+```
+yarn
+```
+or
+```
+npm install
+```
+
+3. 프로젝트 실행
+```
+yarn start
+```
+or
+```
+npm start
+```
+
 ### TODO
 
 - [X] `rooms` 플로팅 버튼 구현
