@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 const Home: React.FC = () => {
   return (
     <CardDeck className="text-center d-flex align-items-center min-vh-100">
-      <Card border="success" className="register-card py-5">
-        <Link to="/room/register" className="no-deco-link">
+      <Card border="success" className="register-card">
+        <Link to="/room/register" className="no-deco-link py-5 home-card">
           <Card.Body>
             <Card.Title><AiOutlineHome /> 방 등록하기</Card.Title>
             <Card.Text>
@@ -17,8 +17,8 @@ const Home: React.FC = () => {
           </Card.Body>
         </Link>
       </Card>
-      <Card border="warning" className="list-card py-5">
-        <Link to="/rooms" className="no-deco-link">
+      <Card border="warning" className="list-card">
+        <Link to="/rooms" className="no-deco-link py-5 home-card">
           <Card.Body>
             <Card.Title><FaRegListAlt /> 방 목록으로 가기</Card.Title>
             <Card.Text>
