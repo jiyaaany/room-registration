@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
-import useForm from '../useForm';
+import useForm from '../hooks/useForm';
 import { Button, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Room } from '../types/instances';

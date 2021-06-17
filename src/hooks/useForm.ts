@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FormData } from './types/instances';
+import { FormData } from '../types/instances';
 
 const useForm = (initialState: FormData): [FormData, (nextFormData: FormData | ((prevFormData: FormData) => FormData)) => void] => {
   const [formData, setFormData] = useState<FormData>(initialState);
