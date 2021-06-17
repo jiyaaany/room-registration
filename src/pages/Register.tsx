@@ -105,6 +105,8 @@ const Register: React.FC = () => {
 
   return (
     <>
+      <h2 className="font-weight-bold text-center">방 등록하기</h2>
+
       <RoomForm
         onChange={onChange}
         onSubmit={onSubmit}

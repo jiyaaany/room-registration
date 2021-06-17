@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Container } from 'react-bootstrap';
 import { roomItems } from './roomItems';
 
 if (!localStorage.getItem('roomItems')) {
@@ -12,9 +11,7 @@ if (!localStorage.getItem('roomItems')) {
 
 ReactDOM.render(
   <React.StrictMode>
-    <Container>
-      <App />
-    </Container>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
