@@ -38,3 +38,27 @@
     transform: rotate(360deg);
   }
 }
+
+.no-deco-link {
+  text-decoration: none;
+  color: #000;
+}
+
+@mixin no-deco-link-hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+.register-card:hover {
+  a {
+    @include no-deco-link-hover();
+  }
+  background: $success;
+}
+
+.list-card:hover {
+  a {
+    @include no-deco-link-hover();
+  }
+  background: $warning;
+}
