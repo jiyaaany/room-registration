@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/room-registration/static/css/main.a25fbd61.chunk.css",
+    "main.js": "/room-registration/static/js/main.cc968a97.chunk.js",
+    "main.js.map": "/room-registration/static/js/main.cc968a97.chunk.js.map",
+    "runtime-main.js": "/room-registration/static/js/runtime-main.ed300548.js",
+    "runtime-main.js.map": "/room-registration/static/js/runtime-main.ed300548.js.map",
+    "static/js/2.b7b9577c.chunk.js": "/room-registration/static/js/2.b7b9577c.chunk.js",
+    "static/js/2.b7b9577c.chunk.js.map": "/room-registration/static/js/2.b7b9577c.chunk.js.map",
+    "static/js/3.d9ae841f.chunk.js": "/room-registration/static/js/3.d9ae841f.chunk.js",
+    "static/js/3.d9ae841f.chunk.js.map": "/room-registration/static/js/3.d9ae841f.chunk.js.map",
+    "index.html": "/room-registration/index.html",
+    "static/css/main.a25fbd61.chunk.css.map": "/room-registration/static/css/main.a25fbd61.chunk.css.map",
+    "static/js/2.b7b9577c.chunk.js.LICENSE.txt": "/room-registration/static/js/2.b7b9577c.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.ed300548.js",
+    "static/js/2.b7b9577c.chunk.js",
+    "static/css/main.a25fbd61.chunk.css",
+    "static/js/main.cc968a97.chunk.js"
+  ]
+}
